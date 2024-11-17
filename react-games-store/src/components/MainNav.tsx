@@ -6,7 +6,7 @@ function MainNav() {
 		'btn btn-primary transition-all [&.active]:font-bold'
 	);
 	return (
-		<div className='p-2 flex gap-2 prose'>
+		<nav className='p-2 flex gap-2 navbar '>
 			<Link
 				to='/'
 				className={linkClassNames}>
@@ -17,7 +17,13 @@ function MainNav() {
 				className={cn(linkClassNames, 'btn-ghost')}>
 				About
 			</Link>{' '}
-		</div>
+			<Link
+				to='/about'
+				className={linkClassNames}>
+				<span className='loading loading-spinner'></span>
+				In progress...
+			</Link>{' '}
+		</nav>
 	);
 }
 
