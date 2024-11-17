@@ -1,28 +1,22 @@
 import { Link } from '@tanstack/react-router';
-import { Link as ChakraLink } from '@chakra-ui/react';
 
 function MainNav() {
 	return (
 		<div className='p-2 flex gap-2'>
-			<ChakraLink
-				asChild
-				variant={'underline'}>
-				<Link
-					to='/'
-					className='[&.active]:font-bold'>
-					Home
-				</Link>
-			</ChakraLink>{' '}
-			<ChakraLink
-				asChild
-				colorPalette={'orange'}
-				variant={'underline'}>
-				<Link
-					to='/about'
-					className='[&.active]:font-bold'>
-					About
-				</Link>
-			</ChakraLink>{' '}
+			<Link
+				to='/'
+				className='[&.active]:font-bold'>
+				Home
+			</Link>{' '}
+			<Link
+				to='/about'
+				className='[&.active]:font-bold'>
+				About
+			</Link>{' '}
+			<button className='btn btn-primary'>Button</button>
+			<button className='btn btn-accent btn-outline'>
+				Button
+			</button>
 		</div>
 	);
 }
