@@ -14,7 +14,7 @@ function MainNav() {
 			</Link>{' '}
 			<Link
 				to='/about'
-				className={cn(linkClassNames, 'btn-secondary')}>
+				className={cn(linkClassNames, 'btn-ghost')}>
 				About
 			</Link>{' '}
 		</div>
