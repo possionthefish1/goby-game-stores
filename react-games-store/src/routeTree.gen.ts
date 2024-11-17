@@ -13,13 +13,14 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as AdminUsersUserIdImport } from './routes/admin/users/$userId'
 
 // Create Virtual Routes
 
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
 const GenreIndexLazyImport = createFileRoute('/genre/')()
-const GenreAbcLazyImport = createFileRoute('/genre/abc')()
+const AdminUsersIndexLazyImport = createFileRoute('/admin/users/')()
 
 // Create/Update Routes
 
@@ -41,11 +42,19 @@ const GenreIndexLazyRoute = GenreIndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/genre/index.lazy').then((d) => d.Route))
 
-const GenreAbcLazyRoute = GenreAbcLazyImport.update({
-  id: '/genre/abc',
-  path: '/genre/abc',
+const AdminUsersIndexLazyRoute = AdminUsersIndexLazyImport.update({
+  id: '/admin/users/',
+  path: '/admin/users/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/genre/abc.lazy').then((d) => d.Route))
+} as any).lazy(() =>
+  import('./routes/admin/users/index.lazy').then((d) => d.Route),
+)
+
+const AdminUsersUserIdRoute = AdminUsersUserIdImport.update({
+  id: '/admin/users/$userId',
+  path: '/admin/users/$userId',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -65,18 +74,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
-    '/genre/abc': {
-      id: '/genre/abc'
-      path: '/genre/abc'
-      fullPath: '/genre/abc'
-      preLoaderRoute: typeof GenreAbcLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/genre/': {
       id: '/genre/'
       path: '/genre'
       fullPath: '/genre'
       preLoaderRoute: typeof GenreIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/users/$userId': {
+      id: '/admin/users/$userId'
+      path: '/admin/users/$userId'
+      fullPath: '/admin/users/$userId'
+      preLoaderRoute: typeof AdminUsersUserIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/users/': {
+      id: '/admin/users/'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersIndexLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -87,46 +103,57 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
-  '/genre/abc': typeof GenreAbcLazyRoute
   '/genre': typeof GenreIndexLazyRoute
+  '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/admin/users': typeof AdminUsersIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
-  '/genre/abc': typeof GenreAbcLazyRoute
   '/genre': typeof GenreIndexLazyRoute
+  '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/admin/users': typeof AdminUsersIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
-  '/genre/abc': typeof GenreAbcLazyRoute
   '/genre/': typeof GenreIndexLazyRoute
+  '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/admin/users/': typeof AdminUsersIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/genre/abc' | '/genre'
+  fullPaths: '/' | '/about' | '/genre' | '/admin/users/$userId' | '/admin/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/genre/abc' | '/genre'
-  id: '__root__' | '/' | '/about' | '/genre/abc' | '/genre/'
+  to: '/' | '/about' | '/genre' | '/admin/users/$userId' | '/admin/users'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/genre/'
+    | '/admin/users/$userId'
+    | '/admin/users/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AboutLazyRoute: typeof AboutLazyRoute
-  GenreAbcLazyRoute: typeof GenreAbcLazyRoute
   GenreIndexLazyRoute: typeof GenreIndexLazyRoute
+  AdminUsersUserIdRoute: typeof AdminUsersUserIdRoute
+  AdminUsersIndexLazyRoute: typeof AdminUsersIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AboutLazyRoute: AboutLazyRoute,
-  GenreAbcLazyRoute: GenreAbcLazyRoute,
   GenreIndexLazyRoute: GenreIndexLazyRoute,
+  AdminUsersUserIdRoute: AdminUsersUserIdRoute,
+  AdminUsersIndexLazyRoute: AdminUsersIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -141,8 +168,9 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
-        "/genre/abc",
-        "/genre/"
+        "/genre/",
+        "/admin/users/$userId",
+        "/admin/users/"
       ]
     },
     "/": {
@@ -151,11 +179,14 @@ export const routeTree = rootRoute
     "/about": {
       "filePath": "about.lazy.tsx"
     },
-    "/genre/abc": {
-      "filePath": "genre/abc.lazy.tsx"
-    },
     "/genre/": {
       "filePath": "genre/index.lazy.tsx"
+    },
+    "/admin/users/$userId": {
+      "filePath": "admin/users/$userId.tsx"
+    },
+    "/admin/users/": {
+      "filePath": "admin/users/index.lazy.tsx"
     }
   }
 }

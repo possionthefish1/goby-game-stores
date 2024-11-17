@@ -1,4 +1,5 @@
 import daisyui from 'daisyui';
+import typography from '@tailwindcss/typography';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -6,7 +7,7 @@ export default {
 	theme: {
 		extend: {},
 	},
-	plugins: [require('@tailwindcss/typography'), daisyui],
+	plugins: [typography, daisyui],
 	daisyui: {
 		themes: true, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
 		darkTheme: 'dark', // name of one of the included themes for dark mode
