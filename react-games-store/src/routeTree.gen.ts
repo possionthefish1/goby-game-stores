@@ -18,6 +18,8 @@ import { Route as rootRoute } from './routes/__root'
 
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
+const GenreIndexLazyImport = createFileRoute('/genre/')()
+const GenreAbcLazyImport = createFileRoute('/genre/abc')()
 
 // Create/Update Routes
 
@@ -32,6 +34,18 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const GenreIndexLazyRoute = GenreIndexLazyImport.update({
+  id: '/genre/',
+  path: '/genre/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/genre/index.lazy').then((d) => d.Route))
+
+const GenreAbcLazyRoute = GenreAbcLazyImport.update({
+  id: '/genre/abc',
+  path: '/genre/abc',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/genre/abc.lazy').then((d) => d.Route))
 
 // Populate the FileRoutesByPath interface
 
@@ -51,6 +65,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
+    '/genre/abc': {
+      id: '/genre/abc'
+      path: '/genre/abc'
+      fullPath: '/genre/abc'
+      preLoaderRoute: typeof GenreAbcLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/genre/': {
+      id: '/genre/'
+      path: '/genre'
+      fullPath: '/genre'
+      preLoaderRoute: typeof GenreIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -59,36 +87,46 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
+  '/genre/abc': typeof GenreAbcLazyRoute
+  '/genre': typeof GenreIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
+  '/genre/abc': typeof GenreAbcLazyRoute
+  '/genre': typeof GenreIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
+  '/genre/abc': typeof GenreAbcLazyRoute
+  '/genre/': typeof GenreIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths: '/' | '/about' | '/genre/abc' | '/genre'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to: '/' | '/about' | '/genre/abc' | '/genre'
+  id: '__root__' | '/' | '/about' | '/genre/abc' | '/genre/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AboutLazyRoute: typeof AboutLazyRoute
+  GenreAbcLazyRoute: typeof GenreAbcLazyRoute
+  GenreIndexLazyRoute: typeof GenreIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AboutLazyRoute: AboutLazyRoute,
+  GenreAbcLazyRoute: GenreAbcLazyRoute,
+  GenreIndexLazyRoute: GenreIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -102,7 +140,9 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about"
+        "/about",
+        "/genre/abc",
+        "/genre/"
       ]
     },
     "/": {
@@ -110,6 +150,12 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.lazy.tsx"
+    },
+    "/genre/abc": {
+      "filePath": "genre/abc.lazy.tsx"
+    },
+    "/genre/": {
+      "filePath": "genre/index.lazy.tsx"
     }
   }
 }

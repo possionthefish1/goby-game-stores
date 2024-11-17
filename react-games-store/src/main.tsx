@@ -6,7 +6,6 @@ import {
 	createRouter,
 } from '@tanstack/react-router';
 import './index.css';
-import App from './App.tsx';
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
@@ -29,7 +28,6 @@ if (rootElement) {
 		<StrictMode>
 			<Provider>
 				<RouterProvider router={router} />
-				{/* <App /> */}
 			</Provider>
 		</StrictMode>
 	);
