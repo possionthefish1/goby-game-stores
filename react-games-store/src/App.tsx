@@ -2,6 +2,8 @@ import { useState } from 'react';
 import viteLogo from '/vite.svg';
 import reactLogo from './assets/react.svg';
 import './App.css';
+import { Button } from '@/components/ui/button';
+import { HStack } from '@chakra-ui/react';
 
 function App() {
 	const [count, setCount] = useState<number>(0);
@@ -9,9 +11,20 @@ function App() {
 	return (
 		<>
 			<div>
-				<a href='https://vite.dev' target='_blank' rel='noreferrer'>
+				<HStack>
+					<Button>Click me</Button>
+					<Button>Click me</Button>
+				</HStack>
+				<a
+					href='https://vite.dev'
+					target='_blank'
+					rel='noreferrer'>
 					<picture>
-						<img src={viteLogo} className='logo' alt='Vite logo' />
+						<img
+							src={viteLogo}
+							className='logo'
+							alt='Vite logo'
+						/>
 					</picture>
 				</a>
 				<a
