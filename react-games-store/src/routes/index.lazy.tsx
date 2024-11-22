@@ -1,3 +1,4 @@
+import SearchBar from '@/components/SearchBar';
 import { createLazyFileRoute } from '@tanstack/react-router';
 
 export const Route = createLazyFileRoute('/')({
@@ -6,8 +7,9 @@ export const Route = createLazyFileRoute('/')({
 
 function Index() {
 	return (
-		<div className='p-2 prose'>
-			<h1>Welcome Home!</h1>
-		</div>
+		<main className='p-2 prose container mx-auto text-center'>
+			<SearchBar />
+			<h1>Main store page</h1>
+		</main>
 	);
 }

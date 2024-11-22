@@ -16,28 +16,35 @@ function MainNav() {
 	);
 
 	return (
-		<nav className='p-2 gap-2 navbar bg-neutral *:text-neutral-content'>
+		<nav
+			className='p-4 gap-2 navbar bg-neutral *:text-neutral-content'
+			role='navigation'>
+			{/* Logo */}
 			<Link
 				to='/'
-				className='flex-1 max-w-64 btn btn-ghost [&.active]:font-bold'>
+				className='flex-1 max-w-64 btn btn-ghost'>
 				<Fish absoluteStrokeWidth={true} />
 				Goby's Game Store
 			</Link>{' '}
+			{/* Divider */}
 			<div className='divider divider-horizontal'></div>
+			{/* Home */}
 			<Link
 				to='/'
 				className='btn btn-ghost [&.active]:font-bold'>
 				<House absoluteStrokeWidth={true} />
 				Home
 			</Link>{' '}
+			{/* Library */}
 			<Link
-				to='/about'
+				to='/library'
 				className={cn(linkClassNames, 'btn-ghost')}>
 				<Library absoluteStrokeWidth={true} />
 				Library
 			</Link>{' '}
+			{/* Sale | Store */}
 			<Link
-				to='/'
+				to='/sale'
 				className='btn btn-ghost [&.active]:font-bold'>
 				{/* Sale logo */}
 				<svg
@@ -52,20 +59,24 @@ function MainNav() {
 				</svg>
 				Sale
 			</Link>{' '}
+			{/* Profile */}
 			<Link
-				to='/'
+				to='/user/$userId'
+				params={{ userId: '1' }}
 				className='btn btn-ghost [&.active]:font-bold'>
 				<User absoluteStrokeWidth={true} />
 				My Account
 			</Link>{' '}
+			{/* Wallet */}
 			<Link
-				to='/'
+				to='/wallet'
 				className='btn btn-ghost [&.active]:font-bold'>
 				<Wallet absoluteStrokeWidth={true} />
 				Wallet
 			</Link>{' '}
+			{/* Settings */}
 			<Link
-				to='/'
+				to='/settings'
 				className='btn btn-ghost [&.active]:font-bold'>
 				<Settings absoluteStrokeWidth={true} />
 				Settings

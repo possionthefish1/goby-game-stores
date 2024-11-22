@@ -1,9 +1,10 @@
-import  tsconfigPaths  from 'vite-tsconfig-paths';
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
+import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [TanStackRouterVite(), react(), tsconfigPaths()],
-})
+	plugins: [TanStackRouterVite(), react(), tsconfigPaths()],
+	server: { port: 3000 },
+});

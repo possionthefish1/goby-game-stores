@@ -13,22 +13,51 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LayoutImport } from './routes/_layout'
+import { Route as LayoutAImport } from './routes/_layout.a'
 import { Route as AdminUsersUserIdImport } from './routes/admin/users/$userId'
 
 // Create Virtual Routes
 
-const AboutLazyImport = createFileRoute('/about')()
+const WalletLazyImport = createFileRoute('/wallet')()
+const SettingsLazyImport = createFileRoute('/settings')()
+const SaleLazyImport = createFileRoute('/sale')()
+const LibraryLazyImport = createFileRoute('/library')()
 const IndexLazyImport = createFileRoute('/')()
 const GenreIndexLazyImport = createFileRoute('/genre/')()
+const UserUserIdLazyImport = createFileRoute('/user/$userId')()
 const AdminUsersIndexLazyImport = createFileRoute('/admin/users/')()
 
 // Create/Update Routes
 
-const AboutLazyRoute = AboutLazyImport.update({
-  id: '/about',
-  path: '/about',
+const WalletLazyRoute = WalletLazyImport.update({
+  id: '/wallet',
+  path: '/wallet',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+} as any).lazy(() => import('./routes/wallet.lazy').then((d) => d.Route))
+
+const SettingsLazyRoute = SettingsLazyImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/settings.lazy').then((d) => d.Route))
+
+const SaleLazyRoute = SaleLazyImport.update({
+  id: '/sale',
+  path: '/sale',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/sale.lazy').then((d) => d.Route))
+
+const LibraryLazyRoute = LibraryLazyImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/library.lazy').then((d) => d.Route))
+
+const LayoutRoute = LayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
@@ -41,6 +70,18 @@ const GenreIndexLazyRoute = GenreIndexLazyImport.update({
   path: '/genre/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/genre/index.lazy').then((d) => d.Route))
+
+const UserUserIdLazyRoute = UserUserIdLazyImport.update({
+  id: '/user/$userId',
+  path: '/user/$userId',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/user/$userId.lazy').then((d) => d.Route))
+
+const LayoutARoute = LayoutAImport.update({
+  id: '/a',
+  path: '/a',
+  getParentRoute: () => LayoutRoute,
+} as any)
 
 const AdminUsersIndexLazyRoute = AdminUsersIndexLazyImport.update({
   id: '/admin/users/',
@@ -67,11 +108,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
+    '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof LayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/sale': {
+      id: '/sale'
+      path: '/sale'
+      fullPath: '/sale'
+      preLoaderRoute: typeof SaleLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/wallet': {
+      id: '/wallet'
+      path: '/wallet'
+      fullPath: '/wallet'
+      preLoaderRoute: typeof WalletLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/_layout/a': {
+      id: '/_layout/a'
+      path: '/a'
+      fullPath: '/a'
+      preLoaderRoute: typeof LayoutAImport
+      parentRoute: typeof LayoutImport
+    }
+    '/user/$userId': {
+      id: '/user/$userId'
+      path: '/user/$userId'
+      fullPath: '/user/$userId'
+      preLoaderRoute: typeof UserUserIdLazyImport
       parentRoute: typeof rootRoute
     }
     '/genre/': {
@@ -100,9 +183,26 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface LayoutRouteChildren {
+  LayoutARoute: typeof LayoutARoute
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutARoute: LayoutARoute,
+}
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
+  '': typeof LayoutRouteWithChildren
+  '/library': typeof LibraryLazyRoute
+  '/sale': typeof SaleLazyRoute
+  '/settings': typeof SettingsLazyRoute
+  '/wallet': typeof WalletLazyRoute
+  '/a': typeof LayoutARoute
+  '/user/$userId': typeof UserUserIdLazyRoute
   '/genre': typeof GenreIndexLazyRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/admin/users': typeof AdminUsersIndexLazyRoute
@@ -110,7 +210,13 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
+  '': typeof LayoutRouteWithChildren
+  '/library': typeof LibraryLazyRoute
+  '/sale': typeof SaleLazyRoute
+  '/settings': typeof SettingsLazyRoute
+  '/wallet': typeof WalletLazyRoute
+  '/a': typeof LayoutARoute
+  '/user/$userId': typeof UserUserIdLazyRoute
   '/genre': typeof GenreIndexLazyRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/admin/users': typeof AdminUsersIndexLazyRoute
@@ -119,7 +225,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
+  '/_layout': typeof LayoutRouteWithChildren
+  '/library': typeof LibraryLazyRoute
+  '/sale': typeof SaleLazyRoute
+  '/settings': typeof SettingsLazyRoute
+  '/wallet': typeof WalletLazyRoute
+  '/_layout/a': typeof LayoutARoute
+  '/user/$userId': typeof UserUserIdLazyRoute
   '/genre/': typeof GenreIndexLazyRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
   '/admin/users/': typeof AdminUsersIndexLazyRoute
@@ -127,13 +239,41 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/genre' | '/admin/users/$userId' | '/admin/users'
+  fullPaths:
+    | '/'
+    | ''
+    | '/library'
+    | '/sale'
+    | '/settings'
+    | '/wallet'
+    | '/a'
+    | '/user/$userId'
+    | '/genre'
+    | '/admin/users/$userId'
+    | '/admin/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/genre' | '/admin/users/$userId' | '/admin/users'
+  to:
+    | '/'
+    | ''
+    | '/library'
+    | '/sale'
+    | '/settings'
+    | '/wallet'
+    | '/a'
+    | '/user/$userId'
+    | '/genre'
+    | '/admin/users/$userId'
+    | '/admin/users'
   id:
     | '__root__'
     | '/'
-    | '/about'
+    | '/_layout'
+    | '/library'
+    | '/sale'
+    | '/settings'
+    | '/wallet'
+    | '/_layout/a'
+    | '/user/$userId'
     | '/genre/'
     | '/admin/users/$userId'
     | '/admin/users/'
@@ -142,7 +282,12 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  AboutLazyRoute: typeof AboutLazyRoute
+  LayoutRoute: typeof LayoutRouteWithChildren
+  LibraryLazyRoute: typeof LibraryLazyRoute
+  SaleLazyRoute: typeof SaleLazyRoute
+  SettingsLazyRoute: typeof SettingsLazyRoute
+  WalletLazyRoute: typeof WalletLazyRoute
+  UserUserIdLazyRoute: typeof UserUserIdLazyRoute
   GenreIndexLazyRoute: typeof GenreIndexLazyRoute
   AdminUsersUserIdRoute: typeof AdminUsersUserIdRoute
   AdminUsersIndexLazyRoute: typeof AdminUsersIndexLazyRoute
@@ -150,7 +295,12 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  AboutLazyRoute: AboutLazyRoute,
+  LayoutRoute: LayoutRouteWithChildren,
+  LibraryLazyRoute: LibraryLazyRoute,
+  SaleLazyRoute: SaleLazyRoute,
+  SettingsLazyRoute: SettingsLazyRoute,
+  WalletLazyRoute: WalletLazyRoute,
+  UserUserIdLazyRoute: UserUserIdLazyRoute,
   GenreIndexLazyRoute: GenreIndexLazyRoute,
   AdminUsersUserIdRoute: AdminUsersUserIdRoute,
   AdminUsersIndexLazyRoute: AdminUsersIndexLazyRoute,
@@ -167,7 +317,12 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about",
+        "/_layout",
+        "/library",
+        "/sale",
+        "/settings",
+        "/wallet",
+        "/user/$userId",
         "/genre/",
         "/admin/users/$userId",
         "/admin/users/"
@@ -176,8 +331,30 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.lazy.tsx"
     },
-    "/about": {
-      "filePath": "about.lazy.tsx"
+    "/_layout": {
+      "filePath": "_layout.tsx",
+      "children": [
+        "/_layout/a"
+      ]
+    },
+    "/library": {
+      "filePath": "library.lazy.tsx"
+    },
+    "/sale": {
+      "filePath": "sale.lazy.tsx"
+    },
+    "/settings": {
+      "filePath": "settings.lazy.tsx"
+    },
+    "/wallet": {
+      "filePath": "wallet.lazy.tsx"
+    },
+    "/_layout/a": {
+      "filePath": "_layout.a.tsx",
+      "parent": "/_layout"
+    },
+    "/user/$userId": {
+      "filePath": "user/$userId.lazy.tsx"
     },
     "/genre/": {
       "filePath": "genre/index.lazy.tsx"
