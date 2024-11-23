@@ -8,11 +8,13 @@ export const Route = createRootRoute({
 function HomePage() {
 	return (
 		<>
-			{/* <div className='grid grid-cols-12'> */}
-			<MainNav />
-			<Outlet />
-			<TanStackRouterDevtools />
-			{/* </div> */}
+			<div className='grid grid-cols-12'>
+				<MainNav />
+				<section className='col-span-9 grid grid-cols-1'>
+					<Outlet />
+				</section>
+				<TanStackRouterDevtools />
+			</div>
 		</>
 	);
 }

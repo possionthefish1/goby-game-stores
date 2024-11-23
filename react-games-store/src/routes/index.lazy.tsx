@@ -7,7 +7,7 @@ export const Route = createLazyFileRoute('/')({
 
 function Index() {
 	return (
-		<main className='p-2 prose container mx-auto text-center'>
+		<main className='p-2 col-span-1'>
 			<SearchBar />
 			<h1>Main store page</h1>
 		</main>

@@ -13,7 +13,7 @@ import {
 
 function SearchBar() {
 	return (
-		<article className='flex items-baseline gap-4'>
+		<article className='flex items-center gap-2 col-span-1'>
 			<SearchField />
 			<motion.div
 				whileTap={{ scale: 0.95 }}
@@ -73,7 +73,7 @@ function SearchField() {
 	}
 
 	return (
-		<form>
+		<form className='grow'>
 			<label className='input flex items-center gap-2'>
 				<Search />
 				<input
