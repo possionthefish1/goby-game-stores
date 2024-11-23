@@ -7,6 +7,11 @@ import { motion } from 'framer-motion';
 import heimerdingerMain from '@/assets/heimerdinger_main.jpg';
 
 import { MessageSquareWarning } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+import heimerdingerMain from '@/assets/heimerdinger_main.jpg';
+
+import { MessageSquareWarning } from 'lucide-react';
 
 export const Route = createLazyFileRoute('/')({
 	component: Index,
@@ -14,6 +19,7 @@ export const Route = createLazyFileRoute('/')({
 
 function Index() {
 	return (
+		<div className='col-span-1 container mx-auto'>
 		<div className='col-span-1 container mx-auto'>
 			<SearchBar />
 			<main className='p-8'>
